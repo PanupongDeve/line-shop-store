@@ -6,7 +6,13 @@ import { ConnectedRouter } from 'react-router-redux';
 import store, { history } from './store';
 import App from './components/App';
 
+import {
+  firebaseRegister
+} from './service/FirebaseService/register';
+
 import './index.css';
+
+firebaseRegister.plugin();
 
 const target = document.getElementById('root');
 

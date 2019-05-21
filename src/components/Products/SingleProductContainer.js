@@ -10,49 +10,94 @@ import MobileNav from '../global/Mobile/MobileNav';
 
 import { GetProducts } from '../../ducks/products';
 
-class Product extends Component {
-  componentDidMount() {
-    const { fetched } = this.props;
+import {
+  product
+} from '../../service/FirebaseService/CloundFireStore/model';
 
-    if (!fetched) {
-      this.props.GetProducts();
+class Product extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      product: null,
+      loading: true
     }
+  }
+
+  async componentWillMount() {
+    const { documentId} = this.props.match.params;
+    let data = await product.getById(documentId);
+    this.setState({ 
+      product: data,
+      loading: false
+   });
   }
 
   render() {
-    const { products } = this.props;
-
-    if (products) {
+    if (this.state.loading) {
       return (
-        <div>
-          <MobileNav />
-          <ProductHeader />
-          <SingleProduct />
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <MobileNav />
-          <CartHeader />
-          <Loading />
-        </div>
-      );
+            <div>
+              {/* <MobileNav /> */}
+              <CartHeader />
+              <Loading />
+            </div>
+          );
     }
+    return (
+      <div>
+          {/* <MobileNav /> */}
+                 <ProductHeader product={this.state.product} />
+                 <SingleProduct  product={this.state.product} />
+               </div>
+    );
   }
 }
 
-const mapStateToProps = ({ products: { fetched, products } }) => ({
-  fetched,
-  products
-});
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      GetProducts
-    },
-    dispatch
-  );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
+
+// class Product extends Component {
+//   componentDidMount() {
+//     const { fetched } = this.props;
+
+//     if (!fetched) {
+//       this.props.GetProducts();
+//     }
+//   }
+
+//   render() {
+//     const { products } = this.props;
+
+//     if (products) {
+//       return (
+//         <div>
+//           <MobileNav />
+//           <ProductHeader />
+//           <SingleProduct />
+//         </div>
+//       );
+//     } else {
+//       return (
+//         <div>
+//           <MobileNav />
+//           <CartHeader />
+//           <Loading />
+//         </div>
+//       );
+//     }
+//   }
+// }
+
+// const mapStateToProps = ({ products: { fetched, products } }) => ({
+//   fetched,
+//   products
+// });
+
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators(
+//     {
+//       GetProducts
+//     },
+//     dispatch
+//   );
+
+export default Product;

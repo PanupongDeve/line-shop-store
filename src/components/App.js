@@ -26,7 +26,7 @@ const App = props => (
         path="/order-confirmation"
         component={OrderConfirmationContainer}
       /> */}
-      <Route path="/product/:id" component={SingleProductContainer} />
+      <Route path="/product/:documentId" component={SingleProductContainer} />
       {/* <Route
         path="/one-click-checkout/:productId"
         component={OneClickCheckout}
