@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductImage from './ProductImage';
-import { product } from '../../service/FirebaseService/CloundFireStore/model';
+import { product, category } from '../../service/FirebaseService/CloundFireStore/model';
 
 class AllProducts extends Component {
   constructor(props) {
@@ -15,7 +15,8 @@ class AllProducts extends Component {
     await product.subscribe(this.handleReviceProducts);
   }
 
-  handleReviceProducts = products => {
+  handleReviceProducts = async products => {
+    products = await product.includOptionalField(products, 'category',category)
     this.setState({ products });
   };
 
@@ -56,7 +57,8 @@ class AllProducts extends Component {
                         style={{ background: '#aaaaaa' }}
                       />
                       <div className="overlay-content">
-                        <div className="title">{product.title} / {product.unit}</div>
+                        <div className="title">{product.title} / {product.unit} </div>
+                        <div className="title">{product.category.title}</div>
                         <div className="price">
                             {product.price} บาท
                         </div>

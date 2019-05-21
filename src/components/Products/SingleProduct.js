@@ -57,7 +57,7 @@ class SingleProduct extends Component {
                 </p>
                 <div className="description">
                    <p className="hide-content">Product details:</p>
-                   <p>{55555555}</p>
+                   <p>{product.description}</p>
                  </div>
                  <form className="product" noValidate>
                    <div className="quantity-input">
