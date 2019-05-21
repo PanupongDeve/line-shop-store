@@ -33,7 +33,7 @@ class ProductsContainer extends Component {
     if (products) {
       return (
         <div>
-          <MobileNav />
+          {/* <MobileNav /> */}
           <ProductsHeader />
           <AllProducts />
         </div>
@@ -41,7 +41,7 @@ class ProductsContainer extends Component {
     } else {
       return (
         <div>
-          <MobileNav />
+          {/* <MobileNav /> */}
           <ProductsHeader />
           <Loading />
         </div>
