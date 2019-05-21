@@ -20,6 +20,10 @@ class AllProducts extends Component {
     this.setState({ products });
   };
 
+  handleGotoAddProduct = (documentId) => () => {
+    this.props.history.push(`/product/${documentId}`)
+  }
+
   render() {
     const { products } = this.state;
     console.log('products', this.state.products);
@@ -43,8 +47,9 @@ class AllProducts extends Component {
                 let background = '#d9d9d9';
                 return (
                   <a
+                    style={{ cursor: 'pointer'}}
                     className="product-item"
-                    href={'/product/' + product.documentId}
+                    onClick={this.handleGotoAddProduct(product.documentId)}
                     key={index}>
                     <div
                       className="product-image"

@@ -46,7 +46,7 @@ class Product extends Component {
       <div>
           {/* <MobileNav /> */}
                  <ProductHeader product={this.state.product} />
-                 <SingleProduct  product={this.state.product} />
+                 <SingleProduct  product={this.state.product} history={this.props.history} />
                </div>
     );
   }

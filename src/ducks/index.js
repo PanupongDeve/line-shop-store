@@ -10,6 +10,7 @@ import categories from './categories';
 import checkout from './checkout';
 import styles from './styles';
 import payments from './payments';
+import productsCarts from './productsCarts';
 
 const rootReducer = combineReducers({
   product,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   checkout,
   styles,
   payments,
+  productsCarts,
   router: routerReducer,
   form: formReducer
 });

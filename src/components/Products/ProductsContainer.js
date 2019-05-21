@@ -35,7 +35,7 @@ class ProductsContainer extends Component {
         <div>
           {/* <MobileNav /> */}
           <ProductsHeader />
-          <AllProducts />
+          <AllProducts history={this.props.history} />
         </div>
       );
     } else {

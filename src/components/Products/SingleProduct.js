@@ -1,7 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import ProductImage from './ProductImage';
 
+import {
+  addCart
+} from '../../ducks/productsCarts';
+
+
+const addCartHelper = (cart, product) => {
+  let updatedCart = [];
+  let newProduct = true;
+  if (product.amount === 0) {
+    return cart;
+  }
+  updatedCart = cart.map(c => {
+    if (c.documentId === product.documentId) {
+      c.amount = product.amount;
+      newProduct = false;
+    }
+    return c;
+  })
+
+  if(newProduct) {
+    updatedCart.push(product);
+  }
+
+  return updatedCart;
+}
 class SingleProduct extends Component {
   constructor(props) {
     super(props);
@@ -28,11 +54,24 @@ class SingleProduct extends Component {
     let { unitCount } = this.state;
     unitCount--;
     if (unitCount <= 0) {
-      unitCount = 0;
+      unitCount = 1;
     }
     this.setState({
       unitCount
     })
+  }
+
+  handleAddCart = (event) => {
+    event.preventDefault();
+    const { product, cart, addCart } = this.props;
+    const { unitCount } = this.state; 
+    product.amount = unitCount;
+    let cardAdded = addCartHelper(cart, product);
+    addCart(cardAdded);
+  }
+
+  handleGotoSelectProducts = () => {
+    this.props.history.push('/');
   }
 
   render() {
@@ -59,7 +98,7 @@ class SingleProduct extends Component {
                    <p className="hide-content">Product details:</p>
                    <p>{product.description}</p>
                  </div>
-                 <form className="product" noValidate>
+                 <form onSubmit={this.handleAddCart} className="product" noValidate>
                    <div className="quantity-input">
                      <p className="hide-content">Product quantity.</p>
                     <p className="hide-content">
@@ -94,11 +133,14 @@ class SingleProduct extends Component {
                   <button
                     type="submit"
                     className="submit"
-                    onClick={e => {
-                      this.addToCart(product.documentId);
-                      e.preventDefault();
-                    }}>
+                   >
                     Add to cart
+                  </button>
+                  <button
+                    onClick={this.handleGotoSelectProducts}
+                    className="submit"
+                   >
+                    เลือกสินค้าอื่น
                   </button>
                 </form>
               </div>
@@ -305,4 +347,19 @@ class SingleProduct extends Component {
 //   }
 // }
 
-export default SingleProduct;
+const mapStateToProps = (state) => {
+  return {
+    cart: state.productsCarts.cart
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      addCart
+    },
+    dispatch
+  );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);
