@@ -20,18 +20,17 @@ class CheckoutContainer extends Component {
   }
 
   render() {
+    console.log('props', this.props);
     if (this.props.payments.processing === false) {
       return (
         <div>
-          <MobileNav />
           <CartHeader />
-          <CheckoutForm />
+          <CheckoutForm history={this.props.history} cart={this.props.productsCarts.cart} />
         </div>
       );
     } else {
       return (
         <div>
-          <MobileNav />
           <CartHeader />
           <Loading />
         </div>

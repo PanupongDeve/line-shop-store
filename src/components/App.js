@@ -19,7 +19,7 @@ const App = props => (
 
     <Switch>
       <Route exact path="/" component={ProductsContainer} />
-      <Route path="/cart" component={Cart} />
+      <Route path="/cart" component={CheckoutContainer} />
       {/* <Route path="/styles" component={StylesContainer} /> */}
       <Route path="/checkout" component={CheckoutContainer} />
       {/* <Route

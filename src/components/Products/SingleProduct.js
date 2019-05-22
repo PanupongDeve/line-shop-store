@@ -74,6 +74,10 @@ class SingleProduct extends Component {
     this.props.history.push('/');
   }
 
+  handleGotoCheckout = () => {
+    this.props.history.push('/checkout');
+  }
+
   render() {
     const { product } = this.props;
     let background = '#d9d9d9';
@@ -131,14 +135,23 @@ class SingleProduct extends Component {
                     </button>
                   </div>
                   <button
+                    style={{ backgroundColor: '#2d2d40', fontSize: '18px'}}
                     type="submit"
-                    className="submit"
+                    className="submit mui-btn mui-btn--raised mui-btn--large"
                    >
                     Add to cart
-                  </button>
+                  </button><br />
                   <button
+                    style={{ marginTop: '5px ', fontSize: '18px'}}
+                    onClick={this.handleGotoCheckout}
+                    className="submit mui-btn mui-btn--raised mui-btn--danger  mui-btn--large"
+                   >
+                    Checkout
+                  </button><br />
+                  <button
+                    style={{ marginTop: '5px ', fontSize: '18px'}}
                     onClick={this.handleGotoSelectProducts}
-                    className="submit"
+                    className="submit mui-btn mui-btn--raised mui-btn--primary  mui-btn--large"
                    >
                     เลือกสินค้าอื่น
                   </button>
