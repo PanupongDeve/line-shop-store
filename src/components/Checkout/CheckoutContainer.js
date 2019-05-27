@@ -9,7 +9,12 @@ function mapStateToProps(state) {
   return state;
 }
 
+
+
 class CheckoutContainer extends Component {
+  constructor(props) {
+    super(props);
+  }
   componentWillMount() {
     const script = document.createElement('script');
 
@@ -17,10 +22,13 @@ class CheckoutContainer extends Component {
     script.async = true;
 
     document.body.appendChild(script);
+
+    
   }
 
+  
+
   render() {
-    console.log('props', this.props);
     if (this.props.payments.processing === false) {
       return (
         <div>

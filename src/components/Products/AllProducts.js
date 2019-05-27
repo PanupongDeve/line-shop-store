@@ -26,7 +26,6 @@ class AllProducts extends Component {
 
   render() {
     const { products } = this.state;
-    console.log('products', this.state.products);
     if (products.length === 0) {
       return (
         <main role="main" id="container" className="main-container push">

@@ -9,6 +9,10 @@ import { connect } from 'react-redux';
 
 import { removeProduct } from '../../ducks/productsCarts';
 
+
+const liff = window.liff; 
+
+
 const numberWithCommas = x => {
   let parts = x.toString().split('.');
   if (parts[1] === '00') {
@@ -40,6 +44,29 @@ const productAllTotalCal = products => {
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      displayName : '',
+        userId : '',
+        pictureUrl : '',
+        statusMessage : ''
+    }
+  }
+
+  componentDidMount() {
+    this.initialize();
+  }
+
+  initialize = () => {
+    console.log('liff loading...')
+    liff.init(async (data) => {
+      let profile = await liff.getProfile();
+      this.setState({
+        displayName : profile.displayName,
+        userId : profile.userId,
+        pictureUrl : profile.pictureUrl,
+        statusMessage : profile.statusMessage
+      });
+    }); 
   }
 
   handleDeleteItem = (products, product) => () => {
@@ -49,8 +76,24 @@ class CheckoutForm extends Component {
     this.props.history.push('/');
   }
 
-  handleCheckout = () => {
-    alert('Wating update');
+  handleCheckout = async() => {
+    liff
+      .sendMessages([
+        {
+          type: 'location',
+          title: 'my location',
+          address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
+          latitude: 35.65910807942215,
+          longitude: 139.70372892916203
+        }
+      ])
+      .then(() => {
+        liff.closeWindow();
+      })
+      .catch(function(error) {
+        alert('Error sending message: ' + error);
+      });
+    
   }
 
   renderProductItems = () => {
