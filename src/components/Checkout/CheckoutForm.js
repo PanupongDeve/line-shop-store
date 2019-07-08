@@ -8,6 +8,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
 import { removeProduct } from '../../ducks/productsCarts';
+import { genRecipeLineTemplate} from './RecipLineTemplate';
 
 
 const liff = window.liff; 
@@ -40,6 +41,12 @@ const productAllTotalCal = products => {
 
   return result;
 };
+
+const sendProductsToLine = () => {
+
+}
+
+
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -77,22 +84,31 @@ class CheckoutForm extends Component {
   }
 
   handleCheckout = async() => {
-    liff
-      .sendMessages([
-        {
-          type: 'location',
-          title: 'my location',
-          address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
-          latitude: 35.65910807942215,
-          longitude: 139.70372892916203
-        }
-      ])
-      .then(() => {
-        liff.closeWindow();
-      })
-      .catch(function(error) {
-        alert('Error sending message: ' + error);
-      });
+    const { cart } = this.props;
+    console.log(cart);
+    if (cart.length === 0) {
+      alert("คุณยังไม่ได้เลือกสินค้า")
+    } else {
+      if (liff.sendMessages) {
+        liff.sendMessages([
+            {
+                type: 'flex',
+                altText: 'Flex Message',
+                contents: {
+                    type: 'carousel',
+                    contents: [genRecipeLineTemplate(cart)]
+                }
+            }
+        ])
+        .then(() => {
+          liff.closeWindow();
+        })
+        .catch(function(error) {
+          alert('Error sending message: ' + error);
+        });
+      }
+    }
+    
     
   }
 
@@ -111,13 +127,17 @@ class CheckoutForm extends Component {
             </div>
             <div className="price">
               <span className="hide-content">Product subtotal: </span>
-              รวม {numberWithCommas(productSubtotoalCal(product))} บาท
+              {numberWithCommas(productSubtotoalCal(product))} บาท
             </div>
-            <button
+            <div
+              style={{ 
+                cursor: 'pointer',
+                fontSize: '20px'
+              }}
               onClick={this.handleDeleteItem(cart, product)}
-              class="mui-btn mui-btn--raised mui-btn--danger">
-              Delete
-            </button>
+            >
+              <i style={ {color: 'red'}} className="fas fa-trash" />
+            </div>
           </div>
         </div>
       );
@@ -136,12 +156,12 @@ class CheckoutForm extends Component {
               <div className="checkout-items">{this.renderProductItems()}</div>
               <div className="price-calculations">
                 <div className="price-item">
-                  Subtotal<span className="hide-content">
+                  รวม<span className="hide-content">
                     {' '}
                     for all products
                   </span>
                   <span className="price">
-                    ยอดสุทธิ{' '}
+                    {' '}
                     {numberWithCommas(productAllTotalCal(this.props.cart))} บาท
                   </span>
                 </div>

@@ -32,7 +32,7 @@ class SingleProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      unitCount: 0
+      unitCount: 1
     }
   }
 
